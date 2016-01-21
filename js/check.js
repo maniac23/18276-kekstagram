@@ -34,10 +34,6 @@ var getMessage = function(a, b) { // функция для подсчета ст
 			return  "Общая площадь артефактов сжатия: " + multyplyArrays(a, b) + " пикселей";
 		} 
 		else {
-			 sum=0;
-			for(var x=0; x<a.length; x++) {
-				sum+=a[x];
-			}
 			return "Количество красных точек во всех строчках изображения: "+ sumArrays(a,b);
 		}
 	}
