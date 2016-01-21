@@ -11,8 +11,8 @@ var multyplyArrays = function(a, b) { // функция для перемнож�
 var sumArrays= function(a,b){    // функция для суммирования элементов массива
 	var sum=0;
 	
-	for(var x=0; x<a.length; x++){ 
-		sum+=a[x];
+	for(var i=0; i<a.length; i++){ 
+		sum+=a[i];
 	}
 	return sum;
 }
