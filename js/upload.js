@@ -114,7 +114,7 @@
   sideY.value = 1;
   // вычисляем максимально возможное значение поля сторона
   function setMaxSideValue(x, y) {
-    side.max = Math.max( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
+    side.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
   }
   resizeForm.onchange = function() {
     setMaxSideValue(sideX, sideY);
