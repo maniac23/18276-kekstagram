@@ -72,7 +72,25 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+    var isValid = true;
+  // проверяем не пустые ли поля
+    if (sideX.value.length === 0 || sideY.value.length === 0 || side.value.length === 0) {
+      isValid = false;
+      return isValid;
+    }
+    for (var i = 0; i < resizeForm.elements.length; i++) {
+      isValid = resizeForm.elements[i].validity.valid;
+      if (!isValid) {
+        break;
+      }
+    }
+    if (isValid) {
+      resizeBtn.removeAttribute('disabled');
+      return true;
+    } else {
+      resizeBtn.setAttribute('disabled', '');
+    }
+
   }
 
   /**
@@ -86,6 +104,27 @@
    * @type {HTMLFormElement}
    */
   var resizeForm = document.forms['upload-resize'];
+  var sideX = resizeForm['resize-x'];
+  var sideY = resizeForm['resize-y'];
+  var side = resizeForm['resize-size'];
+  var resizeBtn = resizeForm['resize-fwd'];
+  // делаем по умолчанию кнопку отправки неактивной
+  resizeBtn.setAttribute('disabled', '');
+  // минимальные значения
+  sideX.min = 0;
+  sideY.min = 0;
+  side.min = 1;
+  // начальные значения
+  sideX.value = 1;
+  sideY.value = 1;
+  // вычисляем максимально возможное значение поля сторона
+  function setMaxSideValue(x, y) {
+    side.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
+  }
+  resizeForm.onchange = function() {
+    setMaxSideValue(sideX, sideY);
+    resizeFormIsValid();
+  };
 
   /**
    * Форма добавления фильтра.
@@ -131,6 +170,7 @@
   function hideMessage() {
     uploadMessage.classList.add('invisible');
   }
+
 
   /**
    * Обработчик изменения изображения в форме загрузки. Если загруженный
