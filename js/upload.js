@@ -73,6 +73,11 @@
    */
   function resizeFormIsValid() {
     var isValid = true;
+  // проверяем не пустые ли поля
+    if (sideX.value.length === 0 || sideY.value.length === 0 || side.value.length === 0) {
+      isValid = false;
+      return isValid;
+    }
     for (var i = 0; i < resizeForm.elements.length; i++) {
       isValid = resizeForm.elements[i].validity.valid;
       if (!isValid) {
