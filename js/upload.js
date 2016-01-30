@@ -258,8 +258,28 @@
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
+  /* global docCookies */
+  var selectedFilter = '';
+  if (docCookies.getItem('filter')) {
+    selectedFilter = docCookies.getItem('filter');
+    var radioButtons = filterForm.querySelectorAll('input[type=radio]');
+    for (var i = 0; i < radioButtons.length; i++) {
+      if (radioButtons[i].value === selectedFilter) {
+        radioButtons[i].setAttribute('checked', '');
+        filterImage.className = 'filter-image-preview filter-' + selectedFilter;
+      }
+    }
+  } else {
+    selectedFilter = 'filter-none';
+  }
+
+  var today = new Date();
+  var birthday = new Date(today.getFullYear(), 6, 10);
+  var daysToExpire = +today + Math.abs(today - birthday);
+
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
+    docCookies.setItem('filter', selectedFilter, new Date(daysToExpire));
 
     cleanupResizer();
     updateBackground();
@@ -284,7 +304,7 @@
       };
     }
 
-    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+    selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
       return item.checked;
     })[0].value;
 
