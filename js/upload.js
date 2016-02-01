@@ -275,7 +275,7 @@
 
   var today = new Date();
   var birthday = new Date(today.getFullYear(), 6, 10);
-  var daysToExpire = +today + Math.abs(today - birthday);
+  var daysToExpire = Number(today) + Math.abs(today - birthday);
 
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
