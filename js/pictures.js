@@ -14,16 +14,16 @@
 ///обработка шаблона
 
 
-  function getPicturesFromTemplate(data, template) {
+  function getPicturesFromTemplate(data, templateElement) {
     var pictureElement;
     var image = new Image('182', '182');
     var imageLoadTimeout;
 
 
-    if ('content' in template) {
-      pictureElement = template.content.children[0].cloneNode(true);
+    if ('content' in templateElement) {
+      pictureElement = templateElement.content.children[0].cloneNode(true);
     } else {
-      pictureElement = template.children[0].cloneNode(true);
+      pictureElement = templateElement.children[0].cloneNode(true);
     }
     pictureElement.querySelector('.picture-likes').textContent = data.likes;
     pictureElement.querySelector('.picture-comments').textContent = data.comments;
