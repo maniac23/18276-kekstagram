@@ -4,14 +4,17 @@
 	// основной контейнер
   var container = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
+  filters.classList.add('hidden');
+  var template = document.querySelector('#picture-template');
 	// обработка данных
   pictures.forEach(function(picture) {
-    var element = getPicturesFromTemplate(picture);
+    var element = getPicturesFromTemplate(picture, template);
     container.appendChild(element);
   });
 ///обработка шаблона
-  function getPicturesFromTemplate(data) {
-    var template = document.querySelector('#picture-template');
+
+
+  function getPicturesFromTemplate(data, template) {
     var pictureElement;
     var image = new Image('182', '182');
     var imageLoadTimeout;
@@ -30,7 +33,7 @@
     image.onload = function() {
       clearTimeout(imageLoadTimeout);
       pictureElement.replaceChild(image, replaceImg);
-      filters.classList.remove('hidden');
+
     };
 			// ошибка при загрузке
     image.onerror = function() {
@@ -43,6 +46,7 @@
       image.src = '';
       pictureElement.classList.add('picture-load-failure');
     }, IMAGE_TIMEOUT);
+    filters.classList.remove('hidden');
     return pictureElement;
   }
 })();
