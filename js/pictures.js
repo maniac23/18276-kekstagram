@@ -12,7 +12,7 @@
     container.appendChild(element);
   });
 ///обработка шаблона
-
+  filters.classList.remove('hidden');
 
   function getPicturesFromTemplate(data, templateElement) {
     var pictureElement;
@@ -46,7 +46,7 @@
       image.src = '';
       pictureElement.classList.add('picture-load-failure');
     }, IMAGE_TIMEOUT);
-    filters.classList.remove('hidden');
+
     return pictureElement;
   }
 })();
