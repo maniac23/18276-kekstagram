@@ -82,11 +82,11 @@
 
       case 'filter-new' :
         filteredPictures = filteredPictures.filter(function(element) {
-        var twoWeeksAgo = new Date() - 14 * 24 * 60 * 60 * 1000;
-        return Date.parse(element.date) > twoWeeksAgo;
-      }).sort(function(a, b) {
-        return Date.parse(b.date) - Date.parse(a.date);
-      });
+          var twoWeeksAgo = new Date() - 14 * 24 * 60 * 60 * 1000;
+          return Date.parse(element.date) > twoWeeksAgo;
+        }).sort(function(a, b) {
+          return Date.parse(b.date) - Date.parse(a.date);
+        });
         break;
 
       case 'filter-discussed' :
