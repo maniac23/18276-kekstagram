@@ -97,10 +97,6 @@
     }
     currentPage = 0;
     drawPictures(0, true);
-  // проверяем есть ли еще место дял картинок
-    if (container.getBoundingClientRect().bottom <= window.innerHeight) {
-      drawPictures(currentPage++);
-    }
     activeFilter = id;
   }
 // делегирование события переключения фильтров
