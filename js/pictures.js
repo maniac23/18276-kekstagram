@@ -10,6 +10,7 @@
   var loadedPictures;
   var currentPage = 0;
   var PAGE_SIZE = 12;
+
 // обработчик скролла
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
@@ -25,6 +26,12 @@
   });
 
   getPictures();
+  /* проверяем загружены ли все картинки и положение последней картинки из списка,
+  если разрешение позволяет и не все картинки загружены, то возвращаем true */
+  function drawNextPAge() {
+    return ((PAGE_SIZE * (currentPage + 1)) < filteredPictures.length) && (container.getBoundingClientRect().bottom - container.lastChild.getBoundingClientRect().height <= window.innerHeight);
+  }
+
   // обработка данных
   function drawPictures(pageNumber, replace) {
     if (replace) {
@@ -40,9 +47,14 @@
       newPictureFragment.appendChild(element);
     });
     container.appendChild(newPictureFragment);
+    // если разрешение экрана позволяет, то дорисовываем еще
+    while (drawNextPAge()){
+      drawPictures(++currentPage);
+    }
   }
 
   filters.classList.remove('hidden');
+
 // загрузка фото по AJAX
   function getPictures() {
     var xhr = new XMLHttpRequest();
