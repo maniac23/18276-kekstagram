@@ -48,7 +48,7 @@
     });
     container.appendChild(newPictureFragment);
     // если разрешение экрана позволяет, то дорисовываем еще
-    while (drawNextPAge()){
+    while (drawNextPAge()) {
       drawPictures(++currentPage);
     }
   }
