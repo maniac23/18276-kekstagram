@@ -10,11 +10,12 @@
   var loadedPictures;
   var currentPage = 0;
   var PAGE_SIZE = 12;
+  var scrollTimeout;
 
 // обработчик скролла
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
-    var scrollTimeout = setTimeout(function() {
+    scrollTimeout = setTimeout(function() {
       var picturesCoordinates = container.getBoundingClientRect();
       var viewport = window.innerHeight;
       if (picturesCoordinates.bottom <= viewport) {
@@ -81,13 +82,13 @@
   }
 
 // обработка фильтров
-  function setActiveFilter(id, force) {
-    if (activeFilter === id && !force) {
+  function setActiveFilter(filterId, force) {
+    if (activeFilter === filterId && !force) {
       return;
     }
     filteredPictures = loadedPictures.slice(0);
 
-    switch (id) {
+    switch (filterId) {
 
       case 'filter-popular' :
         break;
@@ -109,7 +110,7 @@
     }
     currentPage = 0;
     drawPictures(0, true);
-    activeFilter = id;
+    activeFilter = filterId;
   }
 // делегирование события переключения фильтров
   filters.addEventListener('click', function(evt) {
