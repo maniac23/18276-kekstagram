@@ -1,11 +1,11 @@
-	'use strict';
+	/* global Photo: true */
+'use strict';
 (function() {
 	// основной контейнер
   var container = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
   var activeFilter = 'filter-popular';
   filters.classList.add('hidden');
-  var template = document.querySelector('#picture-template');
   var filteredPictures = [];
   var loadedPictures;
   var currentPage = 0;
@@ -36,7 +36,10 @@
   // обработка данных
   function drawPictures(pageNumber, replace) {
     if (replace) {
-      container.innerHTML = '';
+      var pictures = document.querySelectorAll('.picture');
+      Array.prototype.forEach.call(pictures, function(picture) {
+        container.removeChild(picture);
+      });
     }
     var newPictureFragment = document.createDocumentFragment();
     var from = pageNumber * PAGE_SIZE;
@@ -44,8 +47,9 @@
     var picturesPerPage = filteredPictures.slice(from, to);
 
     picturesPerPage.forEach(function(picture) {
-      var element = getPicturesFromTemplate(picture, template);
-      newPictureFragment.appendChild(element);
+      var photoElement = new Photo(picture);
+      photoElement.render();
+      newPictureFragment.appendChild(photoElement.pictureElement);
     });
     container.appendChild(newPictureFragment);
     // если разрешение экрана позволяет, то дорисовываем еще
@@ -119,41 +123,6 @@
       setActiveFilter(clickedElement.id);
     }
   });
-
-// обработка шаблона
-  function getPicturesFromTemplate(data, templateElement) {
-    var pictureElement;
-    var image = new Image('182', '182');
-    var imageLoadTimeout;
-    if ('content' in templateElement) {
-      pictureElement = templateElement.content.children[0].cloneNode(true);
-    } else {
-      pictureElement = templateElement.children[0].cloneNode(true);
-    }
-    pictureElement.querySelector('.picture-likes').textContent = data.likes;
-    pictureElement.querySelector('.picture-comments').textContent = data.comments;
-    image.src = data.url;
-    var replaceImg = pictureElement.querySelector('img');
-			// успешная загрузка картинки
-    image.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      pictureElement.replaceChild(image, replaceImg);
-
-    };
-			// ошибка при загрузке
-    image.onerror = function() {
-      pictureElement.classList.add('picture-load-failure');
-    };
-			// ошибка по истечению таймаута
-    var IMAGE_TIMEOUT = 10000;
-
-    imageLoadTimeout = setTimeout(function() {
-      image.src = '';
-      pictureElement.classList.add('picture-load-failure');
-    }, IMAGE_TIMEOUT);
-
-    return pictureElement;
-  }
 })();
 
 
