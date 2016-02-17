@@ -18,14 +18,14 @@
     image.src = this._data.url;
     var replaceImg = this.pictureElement.querySelector('img');
       // успешная загрузка картинки
-    image.onload = function() {
+    image.addEventListener('load', function() {
       clearTimeout(imageLoadTimeout);
       this.pictureElement.replaceChild(image, replaceImg);
-    }.bind(this);
+    }.bind(this));
       // ошибка при загрузке
-    image.onerror = function() {
+    image.addEventListener('error', function() {
       this.pictureElement.classList.add('picture-load-failure');
-    }.bind(this);
+    }.bind(this));
       // ошибка по истечению таймаута
     var IMAGE_TIMEOUT = 10000;
     imageLoadTimeout = setTimeout(function() {
