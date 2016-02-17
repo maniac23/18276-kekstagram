@@ -99,14 +99,14 @@
    */
   var uploadForm = document.forms['upload-select-image'];
   // получаем размеры смещения изображения
-  function getSize() {
+  function setFormValues() {
     var size = currentResizer.getConstraint();
     sideX.value = Math.floor(size.x);
     sideY.value = Math.floor(size.y);
     side.value = Math.floor(size.side);
   }
   // записываем значения в форму
-  window.addEventListener('resizerchange', getSize);
+  window.addEventListener('resizerchange', setFormValues);
 
   /**
    * Форма кадрирования изображения.
@@ -209,7 +209,7 @@
 
           hideMessage();
           // устанавливаем начальные значения
-          setTimeout(getSize, 100);
+          setTimeout(setFormValues, 100);
         });
 
         fileReader.readAsDataURL(element.files[0]);
