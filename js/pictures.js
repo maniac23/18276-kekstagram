@@ -1,5 +1,5 @@
-	/* global Photo: true */
 'use strict';
+/* global Photo: true, Gallery: true */
 (function() {
 	// основной контейнер
   var container = document.querySelector('.pictures');
@@ -11,6 +11,7 @@
   var currentPage = 0;
   var PAGE_SIZE = 12;
   var scrollTimeout;
+  var gallery = new Gallery();
 
 // обработчик скролла
   window.addEventListener('scroll', function() {
@@ -38,6 +39,7 @@
     if (replace) {
       var pictures = document.querySelectorAll('.picture');
       Array.prototype.forEach.call(pictures, function(picture) {
+        picture.removeEventListener('click', _onClick);
         container.removeChild(picture);
       });
     }
@@ -50,12 +52,17 @@
       var photoElement = new Photo(picture);
       photoElement.render();
       newPictureFragment.appendChild(photoElement.pictureElement);
+      photoElement.pictureElement.addEventListener('click', _onClick);
     });
     container.appendChild(newPictureFragment);
     // если разрешение экрана позволяет, то дорисовываем еще
     while (drawNextPAge()) {
       drawPictures(++currentPage);
     }
+  }
+  function _onClick(evt) {
+    evt.preventDefault();
+    gallery.show();
   }
 
   filters.classList.remove('hidden');
