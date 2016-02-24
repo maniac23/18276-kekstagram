@@ -7,6 +7,7 @@
   var activeFilter = 'filter-popular';
   filters.classList.add('hidden');
   var filteredPictures = [];
+  var renderedPictures = [];
   var loadedPictures;
   var currentPage = 0;
   var PAGE_SIZE = 12;
@@ -37,32 +38,37 @@
   // обработка данных
   function drawPictures(pageNumber, replace) {
     if (replace) {
-      var pictures = document.querySelectorAll('.picture');
-      Array.prototype.forEach.call(pictures, function(picture) {
-        picture.removeEventListener('click', _onClick);
-        container.removeChild(picture);
-      });
+      currentPage = 0;
+      var el;
+      while ((el = renderedPictures.shift())) {
+        container.removeChild(el.pictureElement);
+        el.onClick = null;
+        el.remove();
+      }
     }
     var newPictureFragment = document.createDocumentFragment();
     var from = pageNumber * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var picturesPerPage = filteredPictures.slice(from, to);
 
-    picturesPerPage.forEach(function(picture) {
+    renderedPictures = renderedPictures.concat(picturesPerPage.map(function(picture) {
       var photoElement = new Photo(picture);
+      photoElement.setData(picture);
       photoElement.render();
       newPictureFragment.appendChild(photoElement.pictureElement);
-      photoElement.pictureElement.addEventListener('click', _onClick);
-    });
+
+      photoElement.onClick = function() {
+        gallery.setData(photoElement.getData());
+        gallery.render();
+      };
+      return photoElement;
+    }));
+
     container.appendChild(newPictureFragment);
     // если разрешение экрана позволяет, то дорисовываем еще
     while (drawNextPAge()) {
       drawPictures(++currentPage);
     }
-  }
-  function _onClick(evt) {
-    evt.preventDefault();
-    gallery.show();
   }
 
   filters.classList.remove('hidden');
@@ -119,7 +125,7 @@
         });
         break;
     }
-    currentPage = 0;
+    gallery.setPictures(filteredPictures);
     drawPictures(0, true);
     activeFilter = filterId;
   }
