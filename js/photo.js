@@ -1,5 +1,5 @@
 'use strict';
-(function() {
+define(function() {
   function Photo(data) {
     this._data = data;
     this.onPhotoClick = this.onPhotoClick.bind(this);
@@ -64,5 +64,5 @@
   };
 
   Photo.prototype.onClick = null;
-  window.Photo = Photo;
-})();
+  return Photo;
+});
