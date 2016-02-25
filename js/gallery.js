@@ -40,7 +40,7 @@
 
   Gallery.prototype.setPictures = function(pictures) {
     this.pictures = pictures;
-
+    this.picturesCount = pictures.length;
   };
 
   Gallery.prototype.setCurrentPicture = function(i) {
@@ -107,14 +107,14 @@
   };
 
   Gallery.prototype.setNextPicture = function() {
-    if (this.pictures[this.currentPicture + 1]) {
+    if (this.currentPicture < this.picturesCount - 1) {
       this.currentPicture++;
     }
   };
 
   Gallery.prototype.setPreviousPicture = function() {
-    if (this.pictures[this.currentPicture - 1]) {
-      this.currentPicture++;
+    if (this.currentPicture > 0) {
+      this.currentPicture--;
     }
   };
 
