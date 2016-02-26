@@ -2,7 +2,6 @@
 define([
   'photo',
   'gallery',
-  'check',
   'upload'
 ], function(Photo, Gallery) {
   // основной контейнер
