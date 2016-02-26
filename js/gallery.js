@@ -22,7 +22,6 @@ define(function() {
     /**
      * Контейнер для фотографии
      * @type {HTMLElement}
-     * @private
      */
     this.photo = document.querySelector('.gallery-overlay-image');
     /**
@@ -76,7 +75,7 @@ define(function() {
     this.currentPicture = 0;
   };
   /**
-   * Метод для отображения галереи
+   * Метод для отрисовки элементов галереи
    * @method
    */
   Gallery.prototype.render = function() {
@@ -131,7 +130,7 @@ define(function() {
     }
   };
   /**
-   * Метод события нажатия кнопки закрытия галереи
+   * Обработчик события нажатия кнопки закрытия галереи
    * @method
    * @listens click
    * @private
@@ -171,7 +170,7 @@ define(function() {
   /**
    * Метод события нажатия на клавишу клавиатуры
    * @method
-   * @listens click
+   * @listens keydown
    * @param {Event} evt - событие нажатия клавиши
    * @private
    */

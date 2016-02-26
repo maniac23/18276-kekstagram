@@ -47,9 +47,7 @@ define([
    * @type (Gallery)
    */
   var gallery = new Gallery();
-  /**
-   * обработчик скролла
-   */
+
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
@@ -143,8 +141,8 @@ define([
   }
   /**
    * Функция для фильтрации отрисованных картинок
-   * @param id - id устанавливаемого фильтра
-   * @param force - установка фильтра при загрузке по JSON
+   * @param filterId {string} - id устанавливаемого фильтра
+   * @param force {boolean} - установка фильтра при загрузке по JSON
    */
   function setActiveFilter(filterId, force) {
     if (activeFilter === filterId && !force) {

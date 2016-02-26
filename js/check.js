@@ -1,13 +1,9 @@
 'use strict';
 define(function() {
-  /**
-   * Функция генерирует сообщенние  о загруженном фото  в зависимости
-   * от его расширения
-   * @paran {*} a - параметр типа фото
-   * @param  {*=} b -  параметр типа фото
-   * @returns {string} -  сообщение о формате загруженного фото
+ /**
+  * Функция для перемножения элементов двух массивов
   */
-  var multyplyArrays = function(a, b) { // функция для перемножения элементов двух массивов
+  var multyplyArrays = function(a, b) {
     var result = 0;
 
     for (var i = 0, l = a.length; i < l; i++) {
@@ -16,15 +12,23 @@ define(function() {
 
     return result;
   };
-
-  var sumArrays = function(a) {    // функция для суммирования элементов массива
+ /**
+  * Функция для суммирования элементов массива
+  */
+  var sumArrays = function(a) {
     var sum = 0;
     for (var i = 0; i < a.length; i++) {
       sum += a[i];
     }
     return sum;
   };
-
+  /**
+   * Функция генерирует сообщенние  о загруженном фото  в зависимости
+   * от его расширения
+   * @paran {*} a - параметр типа фото
+   * @param  {*=} b -  параметр типа фото
+   * @returns {string} -  сообщение о формате загруженного фото
+  */
   var getMessage = function(a, b) { // функция для подсчета статистики по разным типам изображений
     if (typeof (a) === 'boolean') {
       if (a) {
