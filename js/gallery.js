@@ -198,7 +198,7 @@ define(function() {
     this.currentPicture = this.getPictureNumber(data.url);
   };
   /**
-   * Метод возвращает номер фотограции в массиве
+   * Метод возвращает номер фотографии в массиве
    * @method
    * @param {string} url - имя фотографии
    * @returns {number}
