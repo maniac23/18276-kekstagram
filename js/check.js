@@ -1,5 +1,4 @@
 define(function() {
-var a, b;
 var multyplyArrays = function(a, b) { // функция для перемножения элементов двух массивов
   var result = 0;
 
