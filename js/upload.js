@@ -99,14 +99,18 @@ define([
    * @type {HTMLFormElement}
    */
   var uploadForm = document.forms['upload-select-image'];
-  // получаем размеры смещения изображения
+  /**
+   *  Получаем размеры смещения изображения
+   */
   function setFormValues() {
     var size = currentResizer.getConstraint();
     sideX.value = Math.floor(size.x);
     sideY.value = Math.floor(size.y);
     side.value = Math.floor(size.side);
   }
-  // записываем значения в форму
+  /**
+   * записываем значения в форму
+   */
   window.addEventListener('resizerchange', setFormValues);
 
   /**
@@ -124,7 +128,12 @@ define([
   sideX.min = 0;
   sideY.min = 0;
   side.min = 1;
-  // вычисляем максимально возможное значение поля сторона
+  /**
+   * Функция для вычисленини максимально возможное значение
+   * поля сторона
+   * @param {number} x -  x-координата
+   * @param {number} y - y-координата
+   */
   function setMaxSideValue(x, y) {
     side.max = Math.min( parseInt((currentResizer._image.naturalWidth - x.value), 10), parseInt((currentResizer._image.naturalHeight - y.value), 10));
   }
