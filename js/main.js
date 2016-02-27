@@ -100,8 +100,8 @@ define([
       newPictureFragment.appendChild(photoElement.pictureElement);
 
       photoElement.onClick = function() {
-        gallery.setData(photoElement.getData());
-        gallery.render();
+        gallery.data = photoElement._data;
+        location.hash = '#photo' + '/' + picture.url;
       };
       return photoElement;
     }));
@@ -196,5 +196,16 @@ define([
     if (clickedElement.classList.contains('filters-radio')) {
       setActiveFilter(clickedElement.id);
     }
+  });
+  function galleryFromHash() {
+    var matchedHash = location.hash.match(/#photo\/(\S+)/);
+    if (Array.isArray(matchedHash)) {
+      gallery.render(matchedHash[1]);
+    } else {
+      gallery.hide();
+    }
+  }
+  window.addEventListener('hashchange', function() {
+    galleryFromHash();
   });
 })();
