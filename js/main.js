@@ -17,7 +17,8 @@ define([
    * Фильтр по умолчанию
    * @type {string}
    */
-  var activeFilter = 'filter-popular';
+  var activeFilter = localStorage.getItem('filter') || 'filter-popular';
+  setCheckedFilter(activeFilter);
   /**
    * скрываем по умолчанию блок с фильтрами
    */
@@ -172,7 +173,21 @@ define([
     gallery.setPictures(filteredPictures);
     drawPictures(0, true);
     activeFilter = filterId;
+    /**
+     * Записываем выбранный фильтр в LocalStorage
+     */
+    localStorage.setItem('filter', filterId);
   }
+
+  /**
+   * Устанавливает checked: true для активного фильтра
+   * @param {strung} filterId - id активного фильтра
+  */
+  function setCheckedFilter(filterId) {
+    var filterRadio = document.getElementById(filterId);
+    filterRadio.checked = true;
+  }
+
 /**
  * Обработчик клика по фильтрам
  */
