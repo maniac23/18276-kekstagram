@@ -78,9 +78,9 @@ define(function() {
    * Метод для отрисовки элементов галереи
    * @method
    */
-  Gallery.prototype.render = function() {
+  Gallery.prototype.render = function(path) {
     this.show();
-    this.setCurrentPicture(this.currentPicture);
+    this.setCurrentPicture(path);
   };
   /**
    * Метод для показа галереи
@@ -117,13 +117,19 @@ define(function() {
   /**
    * Метод для установки показываемой фотографии
    * @method
-   * @param {number} i - индекс фото в массиве pictures
+   * @param {number|string} i - индекс фото в массиве pictures или путь до фото
    */
   Gallery.prototype.setCurrentPicture = function(i) {
-    this.photo.src = this.pictures[i].url;
-    this.likes.querySelector('.likes-count').textContent = this.pictures[i].likes;
-    this.comments.querySelector('.comments-count').textContent = this.pictures[i].comments;
-    if (this._data.liked === true) {
+    var picture;
+    if (typeof i === 'number') {
+      picture = this.pictures[i];
+    } else {
+      picture = this.pictures[this.getPictureNumber(i)];
+    }
+    this.photo.src = picture.url;
+    this.likes.querySelector('.likes-count').textContent = picture.likes;
+    this.comments.querySelector('.comments-count').textContent = picture.comments;
+    if (picture.liked === true) {
       this.likesCount.classList.add('likes-count-liked');
     } else {
       this.likesCount.classList.remove('likes-count-liked');
@@ -136,7 +142,7 @@ define(function() {
    * @private
    */
   Gallery.prototype._onCloseClick = function() {
-    this.hide();
+    location.hash = '';
   };
   /**
    * Метод события нажатия на октрытое фото в галерее
@@ -155,16 +161,17 @@ define(function() {
    * @private
    */
   Gallery.prototype._onLikeClick = function() {
-    if (!this._data.liked === true) {
+    var currentObject = this.pictures[this.currentPicture];
+    if (!currentObject.liked === true) {
       this.likesCount.classList.add('likes-count-liked');
-      this._data.likes++;
-      this.likes.querySelector('.likes-count').textContent = this._data.likes;
-      this._data.liked = true;
+      currentObject.likes++;
+      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
+      currentObject.liked = true;
     } else {
       this.likesCount.classList.remove('likes-count-liked');
-      this._data.likes--;
-      this.likes.querySelector('.likes-count').textContent = this._data.likes;
-      this._data.liked = false;
+      currentObject.likes--;
+      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
+      currentObject.liked = false;
     }
   };
   /**
@@ -176,7 +183,7 @@ define(function() {
    */
   Gallery.prototype._onKeyDown = function(evt) {
     if (evt.keyCode === 27) {
-      this.hide();
+      location.hash = '';
     } else {
       if (evt.keyCode === 39) {
         this.setNextPicture();
@@ -216,7 +223,7 @@ define(function() {
    */
   Gallery.prototype.setNextPicture = function() {
     if (this.currentPicture < this.picturesCount - 1) {
-      this.currentPicture++;
+      this.setHash(this.pictures[this.currentPicture++].url);
     }
   };
     /**
@@ -225,8 +232,11 @@ define(function() {
    */
   Gallery.prototype.setPreviousPicture = function() {
     if (this.currentPicture > 0) {
-      this.currentPicture--;
+      this.setHash(this.pictures[this.currentPicture--].url);
     }
+  };
+  Gallery.prototype.setHash = function(hash) {
+    location.hash = hash ? 'photo/' + hash : '';
   };
 
   return Gallery;
