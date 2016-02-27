@@ -1,22 +1,53 @@
 'use strict';
+/**
+ * @author Mikhail Tukai
+ */
 define([
   'photo',
   'gallery',
   'upload'
 ], function(Photo, Gallery) {
-  // основной контейнер
+  /**
+   * основной контейнер
+   * @type {Element}
+   */
   var container = document.querySelector('.pictures');
   var filters = document.querySelector('.filters');
+  /**
+   * Фильтр по умолчанию
+   * @type {string}
+   */
   var activeFilter = 'filter-popular';
+  /**
+   * скрываем по умолчанию блок с фильтрами
+   */
   filters.classList.add('hidden');
+  /**
+    * Массив отфильтрованных фотографий
+    * @type {Photo[]}
+    */
   var filteredPictures = [];
+  /**
+   * Массив отрисованных фотографий
+   * @type {Photo[]}
+   */
   var renderedPictures = [];
+  /**
+   * Массив объектов загруженных фотографий
+   * @type {Photo[]}
+   */
   var loadedPictures;
   var currentPage = 0;
   var PAGE_SIZE = 12;
+  /**
+   * Таймаут для строла
+   */
   var scrollTimeout;
+  /**
+   * @type (Gallery)
+   */
   var gallery = new Gallery();
-  // обработчик скролла
+
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
@@ -31,13 +62,21 @@ define([
   });
 
   getPictures();
-  /* проверяем загружены ли все картинки и положение последней картинки из списка,
-  если разрешение позволяет и не все картинки загружены, то возвращаем true */
+  /** проверяем загружены ли все картинки
+   * и положение последней картинки из списка,
+   * если разрешение позволяет и не все картинки загружены,
+   * то возвращаем true
+   * @returns {boolean}
+   */
   function drawNextPAge() {
     return ((PAGE_SIZE * (currentPage + 1)) < filteredPictures.length) && (container.getBoundingClientRect().bottom - container.lastChild.getBoundingClientRect().height <= window.innerHeight);
   }
 
-  // обработка данных
+  /**
+   * обработка данных, отрисовка картинок
+   * @param {number} pageNumber - номер страницы отображения
+   * @param {boolean} replace - если true, то удаляет все существующие DOM-элементы с фотографиями
+   */
   function drawPictures(pageNumber, replace) {
     if (replace) {
       currentPage = 0;
@@ -74,7 +113,9 @@ define([
   }
 
   filters.classList.remove('hidden');
-  // загрузка фото по AJAX
+  /**
+   * функция загрузки фото по AJAX
+   */
   function getPictures() {
     var xhr = new XMLHttpRequest();
     xhr.timeout = 10000;
@@ -98,7 +139,11 @@ define([
     };
     xhr.send();
   }
-  // обработка фильтров
+  /**
+   * Функция для фильтрации отрисованных картинок
+   * @param filterId {string} - id устанавливаемого фильтра
+   * @param force {boolean} - установка фильтра при загрузке по JSON
+   */
   function setActiveFilter(filterId, force) {
     if (activeFilter === filterId && !force) {
       return;
@@ -128,7 +173,9 @@ define([
     drawPictures(0, true);
     activeFilter = filterId;
   }
-// делегирование события переключения фильтров
+/**
+ * Обработчик клика по фильтрам
+ */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
     if (clickedElement.classList.contains('filters-radio')) {
