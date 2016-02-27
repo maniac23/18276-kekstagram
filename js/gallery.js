@@ -161,16 +161,17 @@ define(function() {
    * @private
    */
   Gallery.prototype._onLikeClick = function() {
-    if (!this._data.liked === true) {
+    var currentObject = this.pictures[this.currentPicture];
+    if (!currentObject.liked === true) {
       this.likesCount.classList.add('likes-count-liked');
-      this._data.likes++;
-      this.likes.querySelector('.likes-count').textContent = this._data.likes;
-      this._data.liked = true;
+      currentObject.likes++;
+      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
+      currentObject.liked = true;
     } else {
       this.likesCount.classList.remove('likes-count-liked');
-      this._data.likes--;
-      this.likes.querySelector('.likes-count').textContent = this._data.likes;
-      this._data.liked = false;
+      currentObject.likes--;
+      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
+      currentObject.liked = false;
     }
   };
   /**
