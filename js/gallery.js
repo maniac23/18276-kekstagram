@@ -161,17 +161,17 @@ define(function() {
    * @private
    */
   Gallery.prototype._onLikeClick = function() {
-    var currentObject = this.pictures[this.currentPicture];
-    if (!currentObject.liked === true) {
+    var openedPicture = this.pictures[this.currentPicture];
+    if (!openedPicture.liked === true) {
       this.likesCount.classList.add('likes-count-liked');
-      currentObject.likes++;
-      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
-      currentObject.liked = true;
+      openedPicture.likes++;
+      this.likes.querySelector('.likes-count').textContent = openedPicture.likes;
+      openedPicture.liked = true;
     } else {
       this.likesCount.classList.remove('likes-count-liked');
-      currentObject.likes--;
-      this.likes.querySelector('.likes-count').textContent = currentObject.likes;
-      currentObject.liked = false;
+      openedPicture.likes--;
+      this.likes.querySelector('.likes-count').textContent = openedPicture.likes;
+      openedPicture.liked = false;
     }
   };
   /**
@@ -223,7 +223,8 @@ define(function() {
    */
   Gallery.prototype.setNextPicture = function() {
     if (this.currentPicture < this.picturesCount - 1) {
-      this.setHash(this.pictures[this.currentPicture++].url);
+      var newPictureUrl = this.pictures[this.currentPicture++].url;
+      this.setHash(newPictureUrl);
     }
   };
     /**

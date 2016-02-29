@@ -100,7 +100,7 @@ define([
       newPictureFragment.appendChild(photoElement.pictureElement);
 
       photoElement.onClick = function() {
-        gallery.data = photoElement._data;
+        gallery.setData(photoElement.getData());
         location.hash = '#photo' + '/' + picture.url;
       };
       return photoElement;
